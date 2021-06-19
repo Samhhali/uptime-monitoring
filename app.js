@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
+
 require("dotenv/config");
 
 
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+
 
 
 // connect to DB
@@ -30,8 +34,14 @@ mongoose.connect(
 //routes
     var indexRouter = require('./routes/index');
     var usersRouter = require('./routes/users');
-    app.use('/', indexRouter);
-    app.use('/users', usersRouter);
+    var authRouter = require('./routes/auth');
+    var checkRouter = require('./routes/check');
+    var reportRouter = require('./routes/report');
 
+    app.use('/', indexRouter);
+    app.use('/auth', authRouter);
+    app.use('/users', usersRouter);
+    app.use('/check', checkRouter);
+    app.use('/report', reportRouter);
 
 module.exports = app;
