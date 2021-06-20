@@ -4,11 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const authRouter = require('./routes/auth');
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const checkRouter = require('./routes/check');
-const reportRouter = require('./routes/report');
+
 require("dotenv/config");
 
 
@@ -33,12 +29,18 @@ mongoose.connect(
     .catch((err) => console.error(err));
 
 //routes
+const authRouter = require('./routes/auth');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const checkRouter = require('./routes/check');
+const reportRouter = require('./routes/report');
+
 
 
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/users', usersRouter);
-app.use('/check', checkRouter);
-app.use('/report', reportRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/check', checkRouter);
+app.use('/api/report', reportRouter);
 
 module.exports = app;

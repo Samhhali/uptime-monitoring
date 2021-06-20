@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
 const userSchema = new mongoose.Schema({
+    name: String,
     email: {
         type: String,
         unique: true,
@@ -11,10 +12,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
-    //isVerified: { type: Boolean, default: false },
-    //passwordResetToken: String,
-    //passwordResetExpires: Date,
+    status: {
+        type: String,
+        enum: ['Pending', 'Active'],
+        default: 'Pending'
+    },
+    confirmationCode: {
+        type: String,
+        unique: true
+    },
 });
 
 //password encryption
