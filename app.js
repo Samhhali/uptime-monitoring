@@ -4,12 +4,15 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
-
+const authRouter = require('./routes/auth');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const checkRouter = require('./routes/check');
+const reportRouter = require('./routes/report');
 require("dotenv/config");
 
 
-var app = express();
-
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,8 +21,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
-
-
 // connect to DB
 mongoose.connect(
     process.env.DB_CONNECTION,
@@ -27,21 +28,17 @@ mongoose.connect(
         promiseLibrary: require('bluebird'),
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true,    
-    }).then(() =>  console.log('DB Connection Successful'))
+        useCreateIndex: true,
+    }).then(() => console.log('DB Connection Successful'))
     .catch((err) => console.error(err));
 
 //routes
-    var indexRouter = require('./routes/index');
-    var usersRouter = require('./routes/users');
-    var authRouter = require('./routes/auth');
-    var checkRouter = require('./routes/check');
-    var reportRouter = require('./routes/report');
 
-    app.use('/', indexRouter);
-    app.use('/auth', authRouter);
-    app.use('/users', usersRouter);
-    app.use('/check', checkRouter);
-    app.use('/report', reportRouter);
+
+app.use('/', indexRouter);
+app.use('/auth', authRouter);
+app.use('/users', usersRouter);
+app.use('/check', checkRouter);
+app.use('/report', reportRouter);
 
 module.exports = app;

@@ -43,3 +43,5 @@ const checkSchema = new mongoose({
     ignoreSSL: Boolean,
 
 })
+
+module.exports = mongoose.model('Check', checkSchema);

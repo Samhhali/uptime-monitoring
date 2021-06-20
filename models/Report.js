@@ -18,3 +18,5 @@ const reportSchema = new mongoose.Schema({
     history: Number, //timestamped logs of the polling requests
      
 })
+
+module.exports = mongoose.model('Report', reportSchema);
