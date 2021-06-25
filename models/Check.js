@@ -1,35 +1,47 @@
 const mongoose = require('mongoose');
 
-const checkSchema = new mongoose({
+const authenticationSchema = new mongoose.Schema({
+    username: String,
+    password: String
+})
+const checkSchema = new mongoose.Schema({
     name: String,
     url: String,
-    protocol: String,
+    protocol: {
+        type: String,
+        enum: ['HTTP', 'HTTPS', 'TCP']
+    },
     path: String,
-    port: String,
+    port: {
+        type: Number,
+        default:3000,
+        required:false
+    },
     webhook: {
         type: String,
         required: false,
     },
     timeout: {
-        type: String,
-        default: '5sec',    
+        type: Number,
+        default: 5,    //seconds
         required: false,
     },
     interval: {
-        type: String,
-        default: '10min',
+        type: Number,
+        default: 10,    //minutes
         required: false,
     },
     threshold: {
-        type: String,
-        default: '1 failure',
+        type: Number,
+        default: 1,   // 1failure
         required: false,
     },
     authentication:{
+        type: [authenticationSchema],
         required: false,
     },
     httpHeaders: {
-        type: String,
+        type: [String],
         required: false,
     },
     assert:{
@@ -37,7 +49,7 @@ const checkSchema = new mongoose({
         required: false,
     },
     tags:{
-        type: String,
+        type: [String],
         required: false,
     },
     ignoreSSL: Boolean,
